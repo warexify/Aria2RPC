@@ -2,8 +2,8 @@
 //  Aria2.h
 //  Aria2
 //
-//  Created by ShinCurry on 16/4/13.
-//  Copyright © 2016年 ShinCurry. All rights reserved.
+//  Created by Eugene Istratov on 18.03.2018.
+//  Copyright © 2018 Eugene Istratov. All rights reserved.
 //
 
 #import <Cocoa/Cocoa.h>

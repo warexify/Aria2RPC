@@ -2,8 +2,8 @@
 //  Aria2Method.swift
 //  Aria2
 //
-//  Created by ShinCurry on 16/4/15.
-//  Copyright © 2016年 ShinCurry. All rights reserved.
+//  Created by Eugene Istratov on 18.03.2018.
+//  Copyright © 2018 Eugene Istratov. All rights reserved.
 //
 
 import Foundation
@@ -18,18 +18,18 @@ public enum Aria2Method: String {
     case tellStopped
     case shutdown
     case forceShutdown
-    
+
     case addUri
     case addTorrent
-    
+
     case getUris
-    
+
     case changeGlobalOption
-    
+
     case remove
     case removeDownloadResult
     case purgeDownloadResult
-    
+
     case pause
     case pauseAll
     case unpause
@@ -42,5 +42,5 @@ public enum Aria2Method: String {
     case onDownloadComplete
     case onBtDownloadComplete
     case onDownloadError
-    
+
 }

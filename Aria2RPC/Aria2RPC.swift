@@ -2,8 +2,8 @@
 //  Aria2.swift
 //  Aria2
 //
-//  Created by ShinCurry on 16/4/9.
-//  Copyright © 2016年 ShinCurry. All rights reserved.
+//  Created by Eugene Istratov on 18.03.2018.
+//  Copyright © 2018 Eugene Istratov. All rights reserved.
 //
 
 import Foundation
@@ -18,11 +18,11 @@ public enum ConnectionStatus {
 }
 
 open class Aria2RPC {
-        
+
     var socket: WebSocket
-    
+
     var secret = ""
-    
+
     public init?(url: String, secret: String?) {
         guard let path = URL(string: url) else {
             return nil
@@ -33,20 +33,20 @@ open class Aria2RPC {
         }
         socket.delegate = self
     }
-    
+
     // MARK: - Public API
     // MARK: Connection
-    
+
     /**
      connect aria2
      */
     open func connect() {
         status = .connecting
         socket.connect()
-        
+
     }
     open var onConnect: (() -> Void)?
-    
+
     /**
      disconnect aria2
      */
@@ -54,35 +54,35 @@ open class Aria2RPC {
         socket.disconnect()
     }
     open var onDisconnect: (() -> Void)?
-    
+
     open var status: ConnectionStatus = .disconnected {
         didSet {
             onStatusChanged?()
         }
     }
     open var onStatusChanged: (() -> Void)?
-    
+
     /**
      shutdown aria2
      */
     open func shutdown(force: Bool) {
         request(method: force ? .forceShutdown : .shutdown, params: [secret])
     }
-    
+
     /**
      Add single uri to download task
-     
+
      - parameter uri:	download task link
      - parameter options:   task options
      */
-    
+
     open func add(uri: String, withOptions options: [String: String]? = nil) {
         add(uris: [uri], withOptions: options)
     }
-    
+
     /**
      Add multiple uris to download task
-     
+
      - parameter uris:	download task links
      - parameter options:   tasks options
      */
@@ -94,25 +94,25 @@ open class Aria2RPC {
         }
     }
     open var onAddUris: ((_ flag: Bool) -> Void)?
-    
+
     /**
      Get urls of task
-     
+
      - parameter gid:	task gid
      */
     open func getUris(_ gid: String) {
         request(method: .getUris, params: [gid])
     }
     open var onGetUris: ((_ results: [String]) -> Void)?
-    
+
     /**
      Add torrent to download task
-     
+
      - parameter data:	torrent data
      */
     open func add(torrent: Data, withOptions options: [String: String]? = nil) {
         let base64Encoded = torrent.base64EncodedString(options: .lineLength64Characters)
-        
+
         if let opts = options {
             request(method: .addTorrent, params: [base64Encoded, opts])
         } else {
@@ -120,7 +120,7 @@ open class Aria2RPC {
         }
     }
     open var onAddTorrent: ((_ flag: Bool) -> Void)?
-    
+
     // MARK: Global status
     /**
      Get all of active download tasks
@@ -129,7 +129,7 @@ open class Aria2RPC {
         request(method: .tellActive, params: [])
     }
     open var onActives: ((_ results: [Aria2Task]?) -> Void)?
-    
+
     /**
      Get all of waiting download tasks
      */
@@ -138,7 +138,7 @@ open class Aria2RPC {
     }
 //    public var onWaitings: ((results results: JSON) -> Void)?
     open var onWaitings: ((_ results: [Aria2Task]?) -> Void)?
-    
+
     /**
      Get all of stopped download tasks
      */
@@ -146,7 +146,7 @@ open class Aria2RPC {
         request(method: .tellStopped, params: [0, 100])
     }
     open var onStoppeds: ((_ results: [Aria2Task]?) -> Void)?
-    
+
     /**
      Get global status
      */
@@ -154,27 +154,27 @@ open class Aria2RPC {
         request(method: .getGlobalStat, params: [])
     }
     open var onGlobalStatus: ((_ result: Aria2GlobalStatus) -> Void)?
-    
+
     /**
      Change status of an active task to stoppped (Remove an active task)
-     
+
      - parameter gid:	task id
      */
     open func removeActive(_ gid: String) {
         request(method: .remove, params: [gid])
     }
     open var onRemoveActive: ((_ flag: Bool) -> Void)?
-    
+
     /**
      Remove an error/stopped task
-     
+
      - parameter gid:	task gid
      */
     open func removeOther(_ gid: String) {
         request(method: .removeDownloadResult, params: [gid])
     }
     open var onRemoveOther: ((_ flag: Bool) -> Void)?
-    
+
     /**
      Clear All error/stopped tasks
      */
@@ -182,17 +182,17 @@ open class Aria2RPC {
         request(method: .purgeDownloadResult, params: [])
     }
     open var onClearCompletedErrorRemoved: ((_ flag: Bool) -> Void)?
-    
+
     /**
      Pause an active task
-     
+
      - parameter gid:	task id
      */
     open func pause(_ gid: String) {
         request(method: .pause, params: [gid])
     }
     open var onPause: ((_ flag: Bool) -> Void)?
-    
+
     /**
      Pause All of active tasks
      */
@@ -200,17 +200,17 @@ open class Aria2RPC {
         request(method: .pauseAll, params: [])
     }
     open var onPauseAll: ((_ flag: Bool) -> Void)?
-    
+
     /**
      Unpause a paused task
-     
+
      - parameter gid:	task id
      */
     open func unpause(_ gid: String) {
         request(method: .unpause, params: [gid])
     }
     open var onUnpause: ((_ flag: Bool) -> Void)?
-    
+
     /**
      Unpause All of paused tasks
      */
@@ -218,7 +218,7 @@ open class Aria2RPC {
         request(method: .unpauseAll, params: [])
     }
     open var onUnpauseAll: ((_ flag: Bool) -> Void)?
-    
+
     open func restart(_ task: Aria2Task) {
         request(method: .removeDownloadResult, id: "aria2.remove.restart", params: [task.gid!])
         onRemoveOtherToRestart = { flag in
@@ -237,8 +237,8 @@ open class Aria2RPC {
     }
     open var onRemoveOtherToRestart: ((_ flag: Bool) -> Void)?
     open var onRestart: ((_ flag: Bool) -> Void)?
-    
-    
+
+
     // MARK: Download status
     fileprivate var getDownloadStatus: ((_ results: JSON) -> Void)?
     open var downloadCompleted: ((_ name: String, _ folderPath: String) -> Void)?
@@ -246,13 +246,13 @@ open class Aria2RPC {
     open var downloadStarted: ((_ name: String) -> Void)?
     open var downloadStopped: ((_ name: String) -> Void)?
     open var downloadError: ((_ name: String) -> Void)?
-    
-    
-    
+
+
+
     // MARK: Speed limit
     /**
      Set global speed limit
-     
+
      - parameter download:	download speed
      - parameter upload:    upload speed
      */
@@ -263,10 +263,10 @@ open class Aria2RPC {
         change(globalOption: limit)
     }
     open var onGlobalSpeedLimitOK: ((_ flag: Bool) -> Void)?
-    
+
     /**
      Set low speed mode limit
-     
+
      - parameter download:	download speed
      - parameter upload:    upload speed
      */
@@ -277,13 +277,13 @@ open class Aria2RPC {
         change(globalOption: limit)
     }
     open var onLowSpeedLimitOK: ((_ flag: Bool) -> Void)?
-    
-    
+
+
     open func change(globalOption options: [String: String]) {
         request(method: .changeGlobalOption, params: [options])
     }
     open var onChangeGlobalOption: ((_ flag: Bool) -> Void)?
-    
+
     fileprivate func speedToString(_ value: Int) -> String {
         var valueString = "\(value)"
         if value != 0 {
@@ -293,7 +293,7 @@ open class Aria2RPC {
     }
 
 }
-    
+
 extension Aria2RPC {
 
     open func request(method: Aria2Method, params: [Any]) {
@@ -311,7 +311,7 @@ extension Aria2RPC {
         let data = socketString.data(using: .utf8)!
         self.socket.write(data: data)
     }
-    
+
 }
 
 
@@ -330,18 +330,18 @@ extension Aria2RPC: WebSocketDelegate {
     public func websocketDidReceiveData(socket: WebSocket, data: Data) {
         print(data)
     }
-    
+
     public func websocketDidReceiveMessage(socket: WebSocket, text: String) {
         do {
             let results = try JSON(data: text.data(using: .utf8)!)
-            
+
             if results["error"]["message"] == "Unauthorized" {
                 self.status = .unauthorized
                 return
             } else {
                 self.status = .connected
             }
-            
+
             if let idString = results["id"].string {
                 if let method = Aria2Method(rawValue: idString) {
                     switch method {
@@ -387,7 +387,7 @@ extension Aria2RPC: WebSocketDelegate {
                         break
                     }
                 }
-                
+
                 switch idString {
                 case "aria2.tellStatus.downloadStatus":
                     getDownloadStatus!(results)
@@ -402,13 +402,13 @@ extension Aria2RPC: WebSocketDelegate {
                 default:
                     break
                 }
-                
+
             }
-            
+
             if let methodString = results["method"].string {
                 let rawValue = methodString.components(separatedBy: ".")[1]
                 let method = Aria2Method(rawValue: rawValue)!
-                
+
                 getDownloadStatus = { result in
                     var downloadName = ""
                     if let btName = result["result"]["bittorrent"]["info"]["name"].string {
@@ -416,7 +416,7 @@ extension Aria2RPC: WebSocketDelegate {
                     } else {
                         downloadName = result["result"]["files"][0]["path"].stringValue.components(separatedBy: "/").last!
                     }
-                    
+
                     switch method {
                     case .onDownloadStart:
                         self.downloadStarted?(downloadName)
@@ -434,7 +434,7 @@ extension Aria2RPC: WebSocketDelegate {
                     default:
                         break
                     }
-                    
+
                 }
                 results["params"].array!.forEach() { result in
                     self.request(method: .tellStatus, id: "aria2.tellStatus.downloadStatus", params: [result["gid"].stringValue])
@@ -443,17 +443,17 @@ extension Aria2RPC: WebSocketDelegate {
         } catch(let error) {
             print(error)
         }
-        
+
     }
-    
+
     // MARK: Convert JSON to Swift Struct
-    
+
     func getTasksByJSON(_ json: JSON) -> [Aria2Task]? {
         return json["result"].array?.map() { data in
             var task = Aria2Task()
             task.gid = data["gid"].stringValue
             task.status = data["status"].stringValue
-                        
+
             var downloadName = ""
             if let btName = data["bittorrent"]["info"]["name"].string {
                 downloadName = btName
@@ -464,19 +464,19 @@ extension Aria2RPC: WebSocketDelegate {
                 task.fileName = downloadName
             }
             task.title = downloadName
-            
+
             task.completedLength = data["completedLength"].intValue
             task.totalLength = data["totalLength"].intValue
-            
+
             task.speed = Aria2Speed(download: Int(data["downloadSpeed"].stringValue)!, upload: Int(data["uploadSpeed"].stringValue)!)
             task.fileSize = data["totalLength"].intValue
-            
+
             task.uris = data["files"].array!.map({ file in
                 return file["uris"].array!.map({ uri in
                     return uri["uri"].stringValue
                 })
             })
-            
+
             if task.isBtTask! {
                 let pathArray = data["files"][0]["path"].stringValue.components(separatedBy: "/")
                 task.torrentDirectoryPath = data["dir"].stringValue + "/" + pathArray[pathArray.count-2]
@@ -494,7 +494,7 @@ extension Aria2RPC: WebSocketDelegate {
         status.numberOfWaitingTask = data["numWaiting"].intValue
         status.numberOfStoppedTask = data["numStopped"].intValue
         status.numberOfTotalStoppedTask = data["numStoppedTotal"].intValue
-        
+
         return status
     }
 }

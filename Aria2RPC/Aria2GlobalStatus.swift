@@ -2,8 +2,8 @@
 //  Aria2GlobalStatus.swift
 //  Aria2
 //
-//  Created by ShinCurry on 16/5/12.
-//  Copyright © 2016年 ShinCurry. All rights reserved.
+//  Created by Eugene Istratov on 18.03.2018.
+//  Copyright © 2018 Eugene Istratov. All rights reserved.
 //
 
 import Foundation
