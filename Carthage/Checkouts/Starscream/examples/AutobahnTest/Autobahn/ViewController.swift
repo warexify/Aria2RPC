@@ -34,7 +34,7 @@ class ViewController: UIViewController {
                 self?.caseCount = c
             }
         }
-        s.onDisconnect = { [weak self, weak s]  (error: Error?) in
+        s.onDisconnect = { [weak self, weak s]  (error: NSError?) in
             self?.getTestInfo(1)
             self?.removeSocket(s)
         }
@@ -62,7 +62,7 @@ class ViewController: UIViewController {
 
         }
         var once = false
-        s.onDisconnect = { [weak self, weak s]  (error: Error?) in
+        s.onDisconnect = { [weak self, weak s]  (error: NSError?) in
             if !once {
                 once = true
                 self?.runTest(caseNum)
@@ -82,18 +82,11 @@ class ViewController: UIViewController {
             s?.write(data: data)
         }
         var once = false
-        s.onDisconnect = {[weak self, weak s] (error: Error?) in
+        s.onDisconnect = {[weak self, weak s] (error: NSError?) in
             if !once {
                 once = true
                 print("case:\(caseNum) finished")
-                //self?.verifyTest(caseNum) //disabled since it slows down the tests
-                let nextCase = caseNum+1
-                if nextCase <= (self?.caseCount)! {
-                    self?.runTest(nextCase)
-                    //self?.getTestInfo(nextCase) //disabled since it slows down the tests
-                } else {
-                    self?.finishReports()
-                }
+                self?.verifyTest(caseNum)
                 self?.removeSocket(s)
             }
         }
@@ -122,11 +115,10 @@ class ViewController: UIViewController {
             }
         }
         var once = false
-        s.onDisconnect = { [weak self, weak s]  (error: Error?) in
+        s.onDisconnect = { [weak self, weak s]  (error: NSError?) in
             if !once {
                 once = true
                 let nextCase = caseNum+1
-                print("next test is: \(nextCase)")
                 if nextCase <= (self?.caseCount)! {
                     self?.getTestInfo(nextCase)
                 } else {
@@ -141,7 +133,7 @@ class ViewController: UIViewController {
     func finishReports() {
         let s = createSocket("updateReports",0)
         self.socketArray.append(s)
-        s.onDisconnect = { [weak self, weak s]  (error: Error?) in
+        s.onDisconnect = { [weak self, weak s]  (error: NSError?) in
             print("finished all the tests!")
             self?.removeSocket(s)
         }

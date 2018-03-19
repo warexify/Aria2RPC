@@ -16,10 +16,10 @@ To use Aria2RPC in your project add the following 'Podfile' to your project
 
 ```Ruby
 source 'https://github.com/CocoaPods/Specs.git'
-platform :osx, '10.10'
+platform :osx, '10.11'
 use_frameworks!
 
-pod 'Aria2RPC', '~> 1.0.0'
+pod 'Aria2RPC', '~> 1.0.1'
 ```
 
 Then run:

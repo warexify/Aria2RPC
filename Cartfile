@@ -1,2 +1,2 @@
-github "daltoniam/Starscream"
-github "SwiftyJSON/SwiftyJSON"
+github "daltoniam/Starscream" ~> 2.1.0
+github "SwiftyJSON/SwiftyJSON" ~> 3.1.4

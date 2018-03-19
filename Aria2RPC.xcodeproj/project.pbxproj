@@ -15,35 +15,7 @@
 		8860B6B21E02AE0A001B5E8C /* Aria2Task.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8860B6AC1E02AE0A001B5E8C /* Aria2Task.swift */; };
 		B0116BE3205F3FDA00D6E1B0 /* Starscream.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B0116BE1205F3FDA00D6E1B0 /* Starscream.framework */; };
 		B0116BE4205F3FDA00D6E1B0 /* SwiftyJSON.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B0116BE2205F3FDA00D6E1B0 /* SwiftyJSON.framework */; };
-		B0116BE7205F3FEB00D6E1B0 /* SwiftyJSON.framework.dSYM in Resources */ = {isa = PBXBuildFile; fileRef = B0116BE5205F3FEB00D6E1B0 /* SwiftyJSON.framework.dSYM */; };
-		B0116BE8205F3FEB00D6E1B0 /* Starscream.framework.dSYM in Resources */ = {isa = PBXBuildFile; fileRef = B0116BE6205F3FEB00D6E1B0 /* Starscream.framework.dSYM */; };
-		B0116BEA205F403700D6E1B0 /* Starscream.framework.dSYM in Copy dSYM Files */ = {isa = PBXBuildFile; fileRef = B0116BE6205F3FEB00D6E1B0 /* Starscream.framework.dSYM */; };
-		B0116BEB205F403900D6E1B0 /* SwiftyJSON.framework.dSYM in Copy dSYM Files */ = {isa = PBXBuildFile; fileRef = B0116BE5205F3FEB00D6E1B0 /* SwiftyJSON.framework.dSYM */; };
 /* End PBXBuildFile section */
-
-/* Begin PBXCopyFilesBuildPhase section */
-		B0116BE9205F3FF900D6E1B0 /* Copy dSYM Files */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 16;
-			files = (
-				B0116BEA205F403700D6E1B0 /* Starscream.framework.dSYM in Copy dSYM Files */,
-				B0116BEB205F403900D6E1B0 /* SwiftyJSON.framework.dSYM in Copy dSYM Files */,
-			);
-			name = "Copy dSYM Files";
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		B011CE17205F3DEB0043C039 /* CopyFiles */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = Frameworks;
-			dstSubfolderSpec = 6;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		8860B6A51E02ADED001B5E8C /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = Aria2RPC/Info.plist; sourceTree = "<group>"; };
@@ -56,8 +28,6 @@
 		889783571CBE105400C12387 /* Aria2RPC.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Aria2RPC.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B0116BE1205F3FDA00D6E1B0 /* Starscream.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Starscream.framework; path = Carthage/Build/Mac/Starscream.framework; sourceTree = "<group>"; };
 		B0116BE2205F3FDA00D6E1B0 /* SwiftyJSON.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftyJSON.framework; path = Carthage/Build/Mac/SwiftyJSON.framework; sourceTree = "<group>"; };
-		B0116BE5205F3FEB00D6E1B0 /* SwiftyJSON.framework.dSYM */ = {isa = PBXFileReference; lastKnownFileType = wrapper.dsym; name = SwiftyJSON.framework.dSYM; path = Carthage/Build/Mac/SwiftyJSON.framework.dSYM; sourceTree = "<group>"; };
-		B0116BE6205F3FEB00D6E1B0 /* Starscream.framework.dSYM */ = {isa = PBXFileReference; lastKnownFileType = wrapper.dsym; name = Starscream.framework.dSYM; path = Carthage/Build/Mac/Starscream.framework.dSYM; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -115,8 +85,6 @@
 		B0116BE0205F3FDA00D6E1B0 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				B0116BE6205F3FEB00D6E1B0 /* Starscream.framework.dSYM */,
-				B0116BE5205F3FEB00D6E1B0 /* SwiftyJSON.framework.dSYM */,
 				B0116BE1205F3FDA00D6E1B0 /* Starscream.framework */,
 				B0116BE2205F3FDA00D6E1B0 /* SwiftyJSON.framework */,
 			);
@@ -145,8 +113,6 @@
 				889783531CBE105400C12387 /* Frameworks */,
 				889783541CBE105400C12387 /* Headers */,
 				889783551CBE105400C12387 /* Resources */,
-				B0116BE9205F3FF900D6E1B0 /* Copy dSYM Files */,
-				B011CE17205F3DEB0043C039 /* CopyFiles */,
 			);
 			buildRules = (
 			);
@@ -177,6 +143,9 @@
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
 			mainGroup = 8897834D1CBE105400C12387;
 			productRefGroup = 889783581CBE105400C12387 /* Products */;
 			projectDirPath = "";
@@ -192,8 +161,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B0116BE7205F3FEB00D6E1B0 /* SwiftyJSON.framework.dSYM in Resources */,
-				B0116BE8205F3FEB00D6E1B0 /* Starscream.framework.dSYM in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
